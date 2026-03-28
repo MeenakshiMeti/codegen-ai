@@ -1,0 +1,100 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0d0d0d;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+.app { max-width: 960px; margin: 0 auto; padding: 20px; }
+
+.header { text-align: center; padding: 32px 0 20px; }
+.header h1 { font-size: 2.2rem; color: #a78bfa; letter-spacing: -0.5px; }
+.header p { color: #888; font-size: 0.9rem; margin-top: 6px; }
+
+.tabs {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-bottom: 28px;
+}
+
+.tab-btn {
+  padding: 10px 20px; border-radius: 8px;
+  border: 1px solid #2a2a2a; background: #1a1a1a;
+  color: #aaa; cursor: pointer; font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.tab-btn:hover { border-color: #a78bfa; color: #a78bfa; }
+.tab-btn.active { background: #a78bfa; color: #fff; border-color: #a78bfa; }
+
+.card {
+  background: #151515; border: 1px solid #222;
+  border-radius: 14px; padding: 28px;
+}
+
+.card h2 { font-size: 1.2rem; color: #c4b5fd; margin-bottom: 20px; }
+
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 0.85rem; color: #888; margin-bottom: 6px; }
+
+input, select, textarea {
+  width: 100%; padding: 10px 14px;
+  background: #1e1e1e; border: 1px solid #2e2e2e;
+  border-radius: 8px; color: #e0e0e0;
+  font-family: inherit; font-size: 0.95rem;
+  transition: border 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: #a78bfa;
+}
+textarea { resize: vertical; min-height: 120px; font-family: 'Fira Code', monospace; font-size: 0.88rem; }
+
+.btn {
+  padding: 11px 26px; border-radius: 8px;
+  border: none; cursor: pointer; font-size: 0.95rem;
+  font-weight: 600; transition: all 0.2s;
+}
+.btn-primary { background: #a78bfa; color: #fff; }
+.btn-primary:hover { background: #9165f8; }
+.btn-primary:disabled { background: #444; cursor: not-allowed; }
+
+.btn-secondary {
+  background: #1e1e1e; color: #aaa;
+  border: 1px solid #2e2e2e; font-size: 0.82rem;
+  padding: 7px 14px;
+}
+.btn-secondary:hover { border-color: #a78bfa; color: #a78bfa; }
+
+.output-section { margin-top: 28px; }
+.output-header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 12px;
+}
+.output-header span { font-size: 0.85rem; color: #888; }
+.output-actions { display: flex; gap: 8px; }
+
+.output-box {
+  background: #1a1a1a; border: 1px solid #2a2a2a;
+  border-radius: 10px; padding: 18px;
+  font-family: 'Fira Code', monospace; font-size: 0.85rem;
+  line-height: 1.7; white-space: pre-wrap;
+  max-height: 520px; overflow-y: auto; color: #d4d4d4;
+}
+
+.loader {
+  text-align: center; padding: 40px;
+  color: #888; font-size: 0.95rem;
+}
+.loader span { color: #a78bfa; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #a78bfa; color: #fff;
+  padding: 10px 20px; border-radius: 8px;
+  font-size: 0.88rem; animation: fadeIn 0.3s;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.row { display: flex; gap: 14px; }
+.row .form-group { flex: 1; }

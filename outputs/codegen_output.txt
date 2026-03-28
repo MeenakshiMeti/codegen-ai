@@ -1,0 +1,251 @@
+```javascript
+/**
+ * Evaluates prefix, postfix, and infix expressions.
+ */
+
+class ExpressionEvaluator {
+  /**
+   * Evaluates a prefix expression.
+   * 
+   * @param {string} expression - The prefix expression to evaluate.
+   * @returns {number} The result of the evaluation.
+   */
+  evaluatePrefix(expression) {
+    // Split the expression into tokens
+    const tokens = expression.split(' ');
+    
+    // Create a stack to store the operands
+    const stack = [];
+
+    // Iterate over the tokens in reverse order
+    for (let i = tokens.length - 1; i >= 0; i--) {
+      const token = tokens[i];
+
+      // If the token is an operand, push it to the stack
+      if (!isNaN(parseFloat(token))) {
+        stack.push(parseFloat(token));
+      } 
+      // If the token is an operator, pop two operands from the stack, 
+      // apply the operation, and push the result back to the stack
+      else {
+        const operand2 = stack.pop();
+        const operand1 = stack.pop();
+        let result;
+
+        switch (token) {
+          case '+':
+            result = operand1 + operand2;
+            break;
+          case '-':
+            result = operand1 - operand2;
+            break;
+          case '*':
+            result = operand1 * operand2;
+            break;
+          case '/':
+            result = operand1 / operand2;
+            break;
+          default:
+            throw new Error(`Invalid operator: ${token}`);
+        }
+
+        stack.push(result);
+      }
+    }
+
+    // The final result is the only element left in the stack
+    return stack[0];
+  }
+
+  /**
+   * Evaluates a postfix expression.
+   * 
+   * @param {string} expression - The postfix expression to evaluate.
+   * @returns {number} The result of the evaluation.
+   */
+  evaluatePostfix(expression) {
+    // Split the expression into tokens
+    const tokens = expression.split(' ');
+    
+    // Create a stack to store the operands
+    const stack = [];
+
+    // Iterate over the tokens
+    for (const token of tokens) {
+      // If the token is an operand, push it to the stack
+      if (!isNaN(parseFloat(token))) {
+        stack.push(parseFloat(token));
+      } 
+      // If the token is an operator, pop two operands from the stack, 
+      // apply the operation, and push the result back to the stack
+      else {
+        const operand2 = stack.pop();
+        const operand1 = stack.pop();
+        let result;
+
+        switch (token) {
+          case '+':
+            result = operand1 + operand2;
+            break;
+          case '-':
+            result = operand1 - operand2;
+            break;
+          case '*':
+            result = operand1 * operand2;
+            break;
+          case '/':
+            result = operand1 / operand2;
+            break;
+          default:
+            throw new Error(`Invalid operator: ${token}`);
+        }
+
+        stack.push(result);
+      }
+    }
+
+    // The final result is the only element left in the stack
+    return stack[0];
+  }
+
+  /**
+   * Evaluates an infix expression.
+   * 
+   * @param {string} expression - The infix expression to evaluate.
+   * @returns {number} The result of the evaluation.
+   */
+  evaluateInfix(expression) {
+    // Split the expression into tokens
+    const tokens = expression.split(' ');
+    
+    // Create a stack to store the operators
+    const operatorStack = [];
+
+    // Create a stack to store the operands
+    const operandStack = [];
+
+    // Define the operator precedence
+    const precedence = {
+      '+': 1,
+      '-': 1,
+      '*': 2,
+      '/': 2
+    };
+
+    // Iterate over the tokens
+    for (const token of tokens) {
+      // If the token is an operand, push it to the operand stack
+      if (!isNaN(parseFloat(token))) {
+        operandStack.push(parseFloat(token));
+      } 
+      // If the token is an operator
+      else if (token in precedence) {
+        // Pop operators from the operator stack and apply them to the operand stack
+        // until the top of the operator stack has lower precedence or is empty
+        while (operatorStack.length > 0 && 
+               precedence[operatorStack[operatorStack.length - 1]] >= precedence[token]) {
+          const operator = operatorStack.pop();
+          const operand2 = operandStack.pop();
+          const operand1 = operandStack.pop();
+          let result;
+
+          switch (operator) {
+            case '+':
+              result = operand1 + operand2;
+              break;
+            case '-':
+              result = operand1 - operand2;
+              break;
+            case '*':
+              result = operand1 * operand2;
+              break;
+            case '/':
+              result = operand1 / operand2;
+              break;
+            default:
+              throw new Error(`Invalid operator: ${operator}`);
+          }
+
+          operandStack.push(result);
+        }
+
+        // Push the current operator to the operator stack
+        operatorStack.push(token);
+      } 
+      // If the token is a left parenthesis, push it to the operator stack
+      else if (token === '(') {
+        operatorStack.push(token);
+      } 
+      // If the token is a right parenthesis
+      else if (token === ')') {
+        // Pop operators from the operator stack and apply them to the operand stack
+        // until a left parenthesis is found
+        while (operatorStack.length > 0 && operatorStack[operatorStack.length - 1] !== '(') {
+          const operator = operatorStack.pop();
+          const operand2 = operandStack.pop();
+          const operand1 = operandStack.pop();
+          let result;
+
+          switch (operator) {
+            case '+':
+              result = operand1 + operand2;
+              break;
+            case '-':
+              result = operand1 - operand2;
+              break;
+            case '*':
+              result = operand1 * operand2;
+              break;
+            case '/':
+              result = operand1 / operand2;
+              break;
+            default:
+              throw new Error(`Invalid operator: ${operator}`);
+          }
+
+          operandStack.push(result);
+        }
+
+        // Remove the left parenthesis from the operator stack
+        operatorStack.pop();
+      }
+    }
+
+    // Pop any remaining operators from the operator stack and apply them to the operand stack
+    while (operatorStack.length > 0) {
+      const operator = operatorStack.pop();
+      const operand2 = operandStack.pop();
+      const operand1 = operandStack.pop();
+      let result;
+
+      switch (operator) {
+        case '+':
+          result = operand1 + operand2;
+          break;
+        case '-':
+          result = operand1 - operand2;
+          break;
+        case '*':
+          result = operand1 * operand2;
+          break;
+        case '/':
+          result = operand1 / operand2;
+          break;
+        default:
+          throw new Error(`Invalid operator: ${operator}`);
+      }
+
+      operandStack.push(result);
+    }
+
+    // The final result is the only element left in the operand stack
+    return operandStack[0];
+  }
+}
+
+// Example usage
+const evaluator = new ExpressionEvaluator();
+console.log(evaluator.evaluatePrefix("+ 3 4"));  // Output: 7
+console.log(evaluator.evaluatePostfix("3 4 +"));  // Output: 7
+console.log(evaluator.evaluateInfix("3 + 4"));  // Output: 7
+```
