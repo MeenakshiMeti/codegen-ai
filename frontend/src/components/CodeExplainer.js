@@ -47,7 +47,7 @@ export default function CodeExplainer() {
       <button className="btn btn-primary" onClick={handleExplain} disabled={loading || !code.trim()}>
         {loading ? 'Explaining...' : '📖 Explain Code'}
       </button>
-      <CodeOutput result={result} loading={loading} />
+      <CodeOutput result={result} loading={loading} language={language} />
     </div>
   );
 }

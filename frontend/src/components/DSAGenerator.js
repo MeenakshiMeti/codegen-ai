@@ -57,7 +57,7 @@ export default function DSAGenerator() {
       <button className="btn btn-primary" onClick={handleGenerate} disabled={loading || !problem.trim()}>
         {loading ? 'Generating...' : '⚡ Generate Solution'}
       </button>
-      <CodeOutput result={result} loading={loading} />
+      <CodeOutput result={result} loading={loading} language={language} />
     </div>
   );
 }

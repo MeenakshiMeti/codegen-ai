@@ -57,7 +57,7 @@ export default function CodeDebugger() {
       <button className="btn btn-primary" onClick={handleDebug} disabled={loading || !code.trim()}>
         {loading ? 'Debugging...' : '🐛 Debug Code'}
       </button>
-      <CodeOutput result={result} loading={loading} />
+      <CodeOutput result={result} loading={loading} language={language} />
     </div>
   );
 }

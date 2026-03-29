@@ -57,7 +57,7 @@ export default function GeneralGenerator() {
       <button className="btn btn-primary" onClick={handleGenerate} disabled={loading || !description.trim()}>
         {loading ? 'Generating...' : '⚡ Generate Code'}
       </button>
-      <CodeOutput result={result} loading={loading} />
+      <CodeOutput result={result} loading={loading} language={language} />
     </div>
   );
 }
