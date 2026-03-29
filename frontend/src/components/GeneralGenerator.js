@@ -15,7 +15,7 @@ export default function GeneralGenerator() {
     if (!description.trim()) return;
     setLoading(true); setResult('');
     try {
-      const res = await fetch('http://localhost:8000/generate/general', {
+      const res = await fetch('https://codegen-ai-backend.onrender.com/generate/general', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ description, language, mode }),
