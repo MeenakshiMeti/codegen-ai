@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import Profile from './components/Profile';
 import Login from './components/Login';
 import DSAGenerator from './components/DSAGenerator';
 import GeneralGenerator from './components/GeneralGenerator';
@@ -15,6 +16,7 @@ const TABS = [
   { id: 'explain', label: '📖 Code Explainer' },
   { id: 'debug', label: '🐛 Code Debugger' },
   { id: 'history', label: '📜 History' },
+  { id: 'profile', label: '👤 Profile' },
 ];
 
 export default function App() {
@@ -78,6 +80,7 @@ export default function App() {
         {activeTab === 'explain' && <CodeExplainer />}
         {activeTab === 'debug' && <CodeDebugger />}
         {activeTab === 'history' && <History />}
+        {activeTab === 'profile' && <Profile />}
       </main>
     </div>
   );
