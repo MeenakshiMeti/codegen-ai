@@ -7,12 +7,14 @@ import DSAGenerator from './components/DSAGenerator';
 import GeneralGenerator from './components/GeneralGenerator';
 import CodeExplainer from './components/CodeExplainer';
 import CodeDebugger from './components/CodeDebugger';
+import History from './components/History';
 
 const TABS = [
   { id: 'dsa', label: '🧠 DSA Generator' },
   { id: 'general', label: '⚙️ General Generator' },
   { id: 'explain', label: '📖 Code Explainer' },
   { id: 'debug', label: '🐛 Code Debugger' },
+  { id: 'history', label: '📜 History' },
 ];
 
 export default function App() {
@@ -75,6 +77,7 @@ export default function App() {
         {activeTab === 'general' && <GeneralGenerator />}
         {activeTab === 'explain' && <CodeExplainer />}
         {activeTab === 'debug' && <CodeDebugger />}
+        {activeTab === 'history' && <History />}
       </main>
     </div>
   );

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { db, auth } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-export default function CodeOutput({ result, loading, language }) {
+export default function CodeOutput({ result, loading, language, tab }) {
   const [toast, setToast] = useState('');
+  const [saved, setSaved] = useState(false);
 
   const showToast = (msg) => {
     setToast(msg);
@@ -26,13 +29,31 @@ export default function CodeOutput({ result, loading, language }) {
     showToast('⬇️ Downloaded!');
   };
 
+  const handleSave = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+      await addDoc(collection(db, 'history'), {
+        uid: user.uid,
+        email: user.email,
+        result,
+        language,
+        tab: tab || 'general',
+        createdAt: serverTimestamp()
+      });
+      setSaved(true);
+      showToast('💾 Saved to history!');
+    } catch (err) {
+      showToast('❌ Failed to save!');
+    }
+  };
+
   if (loading) return (
     <div className="loader"><span>⚡ Generating with Groq...</span></div>
   );
 
   if (!result) return null;
 
-  // Extract code blocks from result
   const codeBlockRegex = /```[\w]*\n([\s\S]*?)```/g;
   const parts = [];
   let lastIndex = 0;
@@ -59,6 +80,9 @@ export default function CodeOutput({ result, loading, language }) {
         <div className="output-actions">
           <button className="btn btn-secondary" onClick={handleCopy}>📋 Copy</button>
           <button className="btn btn-secondary" onClick={handleDownload}>⬇️ Download</button>
+          <button className="btn btn-secondary" onClick={handleSave} disabled={saved}>
+            {saved ? '✅ Saved' : '💾 Save'}
+          </button>
         </div>
       </div>
 
@@ -69,21 +93,14 @@ export default function CodeOutput({ result, loading, language }) {
               key={index}
               language={lang}
               style={vscDarkPlus}
-              customStyle={{
-                borderRadius: '10px',
-                fontSize: '0.85rem',
-                margin: '10px 0',
-              }}
+              customStyle={{ borderRadius: '10px', fontSize: '0.85rem', margin: '10px 0' }}
             >
               {part.content}
             </SyntaxHighlighter>
           ) : (
             <p key={index} style={{
-              padding: '10px 16px',
-              color: '#d4d4d4',
-              fontSize: '0.88rem',
-              lineHeight: '1.7',
-              whiteSpace: 'pre-wrap'
+              padding: '10px 16px', color: '#d4d4d4',
+              fontSize: '0.88rem', lineHeight: '1.7', whiteSpace: 'pre-wrap'
             }}>
               {part.content}
             </p>
@@ -92,10 +109,7 @@ export default function CodeOutput({ result, loading, language }) {
           <SyntaxHighlighter
             language={lang}
             style={vscDarkPlus}
-            customStyle={{
-              borderRadius: '10px',
-              fontSize: '0.85rem',
-            }}
+            customStyle={{ borderRadius: '10px', fontSize: '0.85rem' }}
           >
             {result}
           </SyntaxHighlighter>
